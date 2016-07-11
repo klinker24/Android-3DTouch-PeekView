@@ -54,18 +54,6 @@ public class Peek {
     public Peek applyTo(final PeekViewActivity activity, final View base) {
         this.base = base;
 
-        /*this.base.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                PeekView peek = new PeekView(activity, options, layoutRes, onPeek);
-                peek.setOverView(view);
-                activity.showPeekView(peek);
-
-                return false;
-            }
-        });*/
-
-        final Handler handler = new Handler();
         this.base.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, final MotionEvent motionEvent) {
@@ -74,20 +62,8 @@ public class Peek {
                         PeekView peek = new PeekView(activity, options, layoutRes, onPeek);
                         peek.setOverMotionEvent(motionEvent);
                         activity.preparePeek(peek, motionEvent);
-                        /*handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.showPeekView(peek);
 
-                                if (options.getHapticFeedback()) {
-                                    base.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                                }
-                            }
-                        }, ViewConfiguration.getLongPressTimeout());*/
                         return true;
-                    case MotionEvent.ACTION_UP:
-                        //handler.removeCallbacksAndMessages(null);
-                        return false;
                     default:
                         return false;
                 }
