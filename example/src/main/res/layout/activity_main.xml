@@ -50,6 +50,12 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize" />
+
+            <View
+                android:id="@+id/show_peek"
+                android:background="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
                 
         </LinearLayout>
 

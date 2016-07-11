@@ -15,19 +15,31 @@
 package com.klinker.android.peekview_example;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.klinker.android.simple_videoview.SimpleVideoView;
+import com.klinker.android.peekview.builder.Peek;
+import com.klinker.android.peekview.PeekViewActivity;
+import com.klinker.android.peekview.builder.PeekViewOptions;
+import com.klinker.android.peekview.callback.SimpleOnPeek;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends PeekViewActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        PeekViewOptions options = new PeekViewOptions();
+        options.setHeightPercent(.3f);
+        options.setWidthPercent(.2f);
+
+        Peek.into(R.layout.peek_view, new SimpleOnPeek() {
+            @Override
+            public void initialized(View rootView) {
+
+            }
+        }).setOptions(options).applyTo(this, findViewById(R.id.show_peek));
     }
+
 }
