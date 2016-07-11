@@ -162,7 +162,7 @@ public class PeekView extends FrameLayout {
      * @param event event that activates the peek view
      */
     public void setOffsetByMotionEvent(MotionEvent event) {
-        int x = (int) event.getRawX();
+        int x = (int) event.getX();
 
         // we don't want our finger to cover the content we are displaying, so, lets move the x value
         // of our touch event to one side or the other.
@@ -185,7 +185,7 @@ public class PeekView extends FrameLayout {
             }
         }
 
-        setContentOffset(x, (int) event.getRawY());
+        setContentOffset(x, (int) event.getY());
     }
 
     private void setContentOffset(int startX, int startY) {
@@ -205,8 +205,12 @@ public class PeekView extends FrameLayout {
         int statusBar = NavigationUtils.getStatusBarHeight(getContext());
         if (startY < statusBar) { // if it is above the status bar and action bar
             startY = statusBar + 10;
-        } else if (startY + contentParams.height > screenHeight) {
-            startY = screenHeight - contentParams.height - 10;
+        } else if (NavigationUtils.hasNavBar(getContext()) &&
+                startY + contentParams.height > screenHeight - NavigationUtils.getNavBarHeight(getContext())) {
+            // if there is a nav bar and the popup is underneath it
+            startY = screenHeight - contentParams.height - NavigationUtils.getNavBarHeight(getContext()) - DensityUtils.toDp(getContext(), 10);
+        } else if (!NavigationUtils.hasNavBar(getContext()) && startY + contentParams.height > screenHeight) {
+            startY = screenHeight - contentParams.height - DensityUtils.toDp(getContext(), 10);
         }
 
         setDistanceFromLeft(startX);
