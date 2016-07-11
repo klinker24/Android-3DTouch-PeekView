@@ -14,13 +14,10 @@
 
 package com.klinker.android.peekview.builder;
 
-import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 
 import com.klinker.android.peekview.PeekView;
 import com.klinker.android.peekview.PeekViewActivity;
@@ -55,17 +52,32 @@ public class Peek {
         this.callbacks = callbacks;
     }
 
+    /**
+     * Apply the options to the PeekView, when it is shown.
+     *
+     * @param options
+     */
     public Peek with(PeekViewOptions options) {
         this.options = options;
         return this;
     }
 
-    public Peek applyTo(final PeekViewActivity activity, final View base) {
+    /**
+     * Finish the builder by selecting the base view that you want to show the PeekView from.
+     *
+     * @param activity the PeekViewActivity that you are on.
+     * @param base the view that you want to touch to apply the peek to.
+     */
+    public void applyTo(final PeekViewActivity activity, final View base) {
         base.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, final MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+
+                        // the user has touched the PeekView base view, so prepare the activity
+                        // to show the PeekView after a long click.
+
                         PeekView peek;
 
                         if (layout == null) {
@@ -74,17 +86,16 @@ public class Peek {
                             peek = new PeekView(activity, options, layout, callbacks);
                         }
 
-                        peek.setOverMotionEvent(motionEvent);
-
+                        peek.setOffsetByMotionEvent(motionEvent);
                         activity.preparePeek(peek, motionEvent);
 
+                        // we want to consume this touch event.
                         return true;
                     default:
+                        // we don't need to consume any other touch events.
                         return false;
                 }
             }
         });
-
-        return this;
     }
 }

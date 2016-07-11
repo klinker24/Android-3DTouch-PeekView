@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.support.annotation.FloatRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -98,28 +99,27 @@ public class PeekView extends FrameLayout {
     }
 
     /**
-     * Sets how far away from the top of the screen the button should be displayed.
-     * Distance should be the value in PX
+     * Sets how far away from the top of the screen the view should be displayed.
+     * Distance should be the value in PX.
      *
-     * @param distance the distance from the top in px
+     * @param distance the distance from the top in px.
      */
     private void setDistanceFromTop(int distance) {
         this.distanceFromTop = options.fullScreenPeek() ? 0 : distance;
     }
 
     /**
-     * Sets how far away from the left side of the screen the button should be displayed.
-     * Distance should be the value in PX
+     * Sets how far away from the left side of the screen the view should be displayed.
+     * Distance should be the value in PX.
      *
-     * @param distance the distance from the left in px
+     * @param distance the distance from the left in px.
      */
     private void setDistanceFromLeft(int distance) {
         this.distanceFromLeft = options.fullScreenPeek() ? 0 : distance;
     }
 
     /**
-     * Sets the width of the button. Distance should be the value in DP, it will be
-     * converted to the appropriate pixel value
+     * Sets the width of the view in PX.
      *
      * @param width the width of the circle in px
      */
@@ -129,8 +129,7 @@ public class PeekView extends FrameLayout {
     }
 
     /**
-     * Sets the height of the button. Distance should be the value in DP, it will be
-     * converted to the appropriate pixel value
+     * Sets the height of the view in PX.
      *
      * @param height the height of the circle in px
      */
@@ -140,33 +139,21 @@ public class PeekView extends FrameLayout {
     }
 
     /**
-     * Sets the width of the window according to the screen width
+     * Sets the width of the window according to the screen width.
      *
-     * @param percent as a decimal, (0.0 - 1.0)
+     * @param percent of screen width
      */
-    public void setWidthByPercent(float percent) {
+    public void setWidthByPercent(@FloatRange(from=0,to=1) float percent) {
         setWidth((int) (screenWidth * percent));
     }
 
     /**
-     * Sets the height of the window according to the screen height
+     * Sets the height of the window according to the screen height.
      *
-     * @param percent as a decimal (0.0 - 1.0)
+     * @param percent of screen height
      */
-    public void setHeightByPercent(float percent) {
+    public void setHeightByPercent(@FloatRange(from=0,to=1) float percent) {
         setHeight((int) (screenHeight * percent));
-    }
-
-    /**
-     * Places the peek view over the top of the given layout
-     *
-     * @param under view that the peek view should come above
-     */
-    public void setOverView(View under) {
-        int[] location = new int[2];
-        under.getLocationOnScreen(location);
-
-        setStartPoints(location[0], location[1]);
     }
 
     /**
@@ -174,7 +161,7 @@ public class PeekView extends FrameLayout {
      *
      * @param event event that activates the peek view
      */
-    public void setOverMotionEvent(MotionEvent event) {
+    public void setOffsetByMotionEvent(MotionEvent event) {
         int x = (int) event.getX();
 
         // we don't want our finger to cover the content we are displaying, so, lets move the x value
@@ -198,10 +185,10 @@ public class PeekView extends FrameLayout {
             }
         }
 
-        setStartPoints(x, (int) event.getY());
+        setContentOffset(x, (int) event.getY());
     }
 
-    private void setStartPoints(int startX, int startY) {
+    private void setContentOffset(int startX, int startY) {
 
         startX = startX - (contentParams.width / 2);
         startY = startY - (contentParams.height / 2);
@@ -230,13 +217,17 @@ public class PeekView extends FrameLayout {
         setDistanceFromTop(startY);
     }
 
+    /**
+     * Show the content of the PeekView by adding it to the android.R.id.content FrameLayout.
+     */
     public void show() {
         androidContentView.addView(this);
 
-        // we haven't specified a view to start from
+        // set the translations for the content view
         content.setTranslationX(distanceFromLeft);
         content.setTranslationY(distanceFromTop);
 
+        // animate the alpha of the PeekView
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f);
         animator.addListener(new AnimatorEndListener() {
             @Override
@@ -251,12 +242,17 @@ public class PeekView extends FrameLayout {
         animator.start();
     }
 
+    /**
+     * Hide the PeekView and remove it from the android.R.id.content FrameLayout.
+     */
     public void hide() {
 
+        // animate with a fade
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f, 0.0f);
         animator.addListener(new AnimatorEndListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
+                // remove the view from the screen
                 androidContentView.removeView(PeekView.this);
 
                 if (callbacks != null) {
@@ -269,6 +265,9 @@ public class PeekView extends FrameLayout {
         animator.start();
     }
 
+    /**
+     * Wrapper class so we only have to implement the onAnimationEnd method.
+     */
     private abstract class AnimatorEndListener implements Animator.AnimatorListener {
         @Override public void onAnimationStart(Animator animator) { }
         @Override public void onAnimationCancel(Animator animator) { }

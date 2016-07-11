@@ -30,16 +30,35 @@ public class PeekViewActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.v("touch_event", event.getAction() + "");
         if (peekView != null && event.getAction() == MotionEvent.ACTION_UP) {
+
+            // the user lifted their finger, so we are going to remove the peek view
+
             peekView.hide();
             peekView = null;
+
             return true;
-        } else if (preparing &&
-                (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_MOVE) &&
-                (Math.abs(startX - event.getRawX()) > MOVE_THRESHOLD && Math.abs(startY - event.getRawY()) > MOVE_THRESHOLD)) {
+        } else if (preparing && event.getAction() == MotionEvent.ACTION_UP) {
+
+            // the user lifted their finger before the view had been shown, so we don't want to show it
+
             preparing = false;
             longClickHandler.removeCallbacksAndMessages(null);
+
+            return false;
+        } else if (preparing && event.getAction() == MotionEvent.ACTION_MOVE &&
+                (Math.abs(startX - event.getRawX()) > MOVE_THRESHOLD && Math.abs(startY - event.getRawY()) > MOVE_THRESHOLD)) {
+
+            // if the user has long clicked, and this is a move event, we want to use an 8 dip threshold
+            // before we cancel the long click.
+
+            // this means that they must move their finger more than 8 dip before the handler is cancelled.
+            // we are required to do this since the activity will receive every touch event, there is no
+            // threshold built in.
+
+            preparing = false;
+            longClickHandler.removeCallbacksAndMessages(null);
+
             return false;
         }
 
@@ -49,9 +68,12 @@ public class PeekViewActivity extends AppCompatActivity {
     public void preparePeek(final PeekView view, MotionEvent startEvent) {
         preparing = true;
 
+        // we need to save these so that we can get an accurate MOVE_THRESHOLD before cancelling
+        // the long click handler from an ACTION_MOVE event
         startX = (int) startEvent.getRawX();
         startY = (int) startEvent.getRawY();
 
+        // show the peek view after the long press timeout
         longClickHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

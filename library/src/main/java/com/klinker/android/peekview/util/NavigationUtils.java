@@ -6,6 +6,9 @@ import android.os.Build;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 
+/**
+ * Get navigation sizes and options.
+ */
 public class NavigationUtils {
     public static int getStatusBarHeight(Context context) {
         int result = 0;
