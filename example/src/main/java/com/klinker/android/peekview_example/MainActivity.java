@@ -16,6 +16,7 @@ package com.klinker.android.peekview_example;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.PeekViewActivity;
@@ -31,13 +32,12 @@ public class MainActivity extends PeekViewActivity {
         setContentView(R.layout.activity_main);
 
         PeekViewOptions options = new PeekViewOptions();
-        options.setHeightPercent(.3f);
-        options.setWidthPercent(.2f);
 
         Peek.into(R.layout.peek_view, new SimpleOnPeek() {
             @Override
             public void initialized(View rootView) {
-
+                TextView previewText = (TextView) rootView.findViewById(R.id.text_view);
+                previewText.setText("hey here is a peek view!");
             }
         }).setOptions(options).applyTo(this, findViewById(R.id.show_peek));
     }
