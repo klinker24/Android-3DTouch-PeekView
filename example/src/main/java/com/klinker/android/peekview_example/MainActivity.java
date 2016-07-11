@@ -31,10 +31,15 @@ import com.klinker.android.simple_videoview.SimpleVideoView;
 
 public class MainActivity extends PeekViewActivity {
 
-    private static final String TALON = "https://lh6.ggpht.com/W27xhTGcBY1Bcn1PdlRQeSstMuiBMK3iptcr_DL7b5Hz0sGBezkQIw9pjcLnLEY1cQ=w300-rw";
-    private static final String EVOLVE = "https://lh5.ggpht.com/SH0GFeQzs7w6RZoQ5PIxndvUPvoB1PB8eW_p28oeiRzw8P0MOThX_n_6H0iuJ1LKD9FT=w300-rw";
-    private static final String SOURCE = "https://lh3.ggpht.com/Bgg_cMk8HCEKPqQqBJwG-BUp_YrectAo1pL5DAQ2Bzv4cfKE5ipwWq9QlzegiOoLUyQ=w300-rw";
-    private static final String BLUR = "https://lh4.ggpht.com/YwmoCGxKzgWiSCZ3PzeX6P7hrjJl26dTfFfZLfwckDOBdT5h8CyAXs7x_tttC0RdbVIb=w300-rw";
+    private static final String TALON_ICON = "https://lh6.ggpht.com/W27xhTGcBY1Bcn1PdlRQeSstMuiBMK3iptcr_DL7b5Hz0sGBezkQIw9pjcLnLEY1cQ=w300-rw";
+    private static final String EVOLVE_ICON = "https://lh5.ggpht.com/SH0GFeQzs7w6RZoQ5PIxndvUPvoB1PB8eW_p28oeiRzw8P0MOThX_n_6H0iuJ1LKD9FT=w300-rw";
+    private static final String SOURCE_ICON = "https://lh3.ggpht.com/Bgg_cMk8HCEKPqQqBJwG-BUp_YrectAo1pL5DAQ2Bzv4cfKE5ipwWq9QlzegiOoLUyQ=w300-rw";
+    private static final String BLUR_ICON = "https://lh4.ggpht.com/YwmoCGxKzgWiSCZ3PzeX6P7hrjJl26dTfFfZLfwckDOBdT5h8CyAXs7x_tttC0RdbVIb=w300-rw";
+
+    private static final String TALON_LINK = "https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l";
+    private static final String EVOLVE_LINK = "https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms";
+    private static final String SOURCE_LINK = "https://play.google.com/store/apps/details?id=com.klinker.android.source";
+    private static final String BLUR_LINK = "https://play.google.com/store/apps/details?id=com.klinker.android.launcher";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,22 +116,15 @@ public class MainActivity extends PeekViewActivity {
     }
 
     private void initAppPeeks() {
-        Glide.with(this).load(TALON).into((ImageView) findViewById(R.id.talon));
-        Glide.with(this).load(EVOLVE).into((ImageView) findViewById(R.id.evolve));
-        Glide.with(this).load(SOURCE).into((ImageView) findViewById(R.id.source));
-        Glide.with(this).load(BLUR).into((ImageView) findViewById(R.id.blur));
+        Glide.with(this).load(TALON_ICON).into((ImageView) findViewById(R.id.talon));
+        Glide.with(this).load(EVOLVE_ICON).into((ImageView) findViewById(R.id.evolve));
+        Glide.with(this).load(SOURCE_ICON).into((ImageView) findViewById(R.id.source));
+        Glide.with(this).load(BLUR_ICON).into((ImageView) findViewById(R.id.blur));
 
-        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l"))
-                .applyTo(this, findViewById(R.id.talon));
-
-        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms"))
-                .applyTo(this, findViewById(R.id.evolve));
-
-        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.source"))
-                .applyTo(this, findViewById(R.id.source));
-
-        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.launcher"))
-                .applyTo(this, findViewById(R.id.blur));
+        Peek.into(R.layout.web_peek, getWebPeek(TALON_LINK)).applyTo(this, findViewById(R.id.talon));
+        Peek.into(R.layout.web_peek, getWebPeek(EVOLVE_LINK)).applyTo(this, findViewById(R.id.evolve));
+        Peek.into(R.layout.web_peek, getWebPeek(SOURCE_LINK)).applyTo(this, findViewById(R.id.source));
+        Peek.into(R.layout.web_peek, getWebPeek(BLUR_LINK)).applyTo(this, findViewById(R.id.blur));
     }
 
     private OnPeek getWebPeek(final String url) {
