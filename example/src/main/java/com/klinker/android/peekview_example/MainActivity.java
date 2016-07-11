@@ -16,6 +16,8 @@ package com.klinker.android.peekview_example;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -29,6 +31,11 @@ import com.klinker.android.simple_videoview.SimpleVideoView;
 
 public class MainActivity extends PeekViewActivity {
 
+    private static final String TALON = "https://lh6.ggpht.com/W27xhTGcBY1Bcn1PdlRQeSstMuiBMK3iptcr_DL7b5Hz0sGBezkQIw9pjcLnLEY1cQ=w300-rw";
+    private static final String EVOLVE = "https://lh5.ggpht.com/SH0GFeQzs7w6RZoQ5PIxndvUPvoB1PB8eW_p28oeiRzw8P0MOThX_n_6H0iuJ1LKD9FT=w300-rw";
+    private static final String SOURCE = "https://lh3.ggpht.com/Bgg_cMk8HCEKPqQqBJwG-BUp_YrectAo1pL5DAQ2Bzv4cfKE5ipwWq9QlzegiOoLUyQ=w300-rw";
+    private static final String BLUR = "https://lh4.ggpht.com/YwmoCGxKzgWiSCZ3PzeX6P7hrjJl26dTfFfZLfwckDOBdT5h8CyAXs7x_tttC0RdbVIb=w300-rw";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +45,8 @@ public class MainActivity extends PeekViewActivity {
         initImagePreview();
         initGifPeek();
         initVideoPeek();
+
+        initAppPeeks();
     }
 
     private void initHelloPeek() {
@@ -66,16 +75,89 @@ public class MainActivity extends PeekViewActivity {
                 .setWidthPercent(.75f)
                 .setHeightPercent(.75f);
 
-        Peek.into(R.layout.gif_peek, new SimpleOnPeek() {
-            @Override
-            public void onInflated(View rootView) {
-                SimpleVideoView videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
+        Peek.into(R.layout.gif_peek, new OnPeek() {
+            private SimpleVideoView videoView;
+
+            @Override public void shown() { }
+            @Override public void onInflated(View rootView) {
+                videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
                 videoView.start("https://video.twimg.com/ext_tw_video/703677246528221184/pu/vid/180x320/xnI48eAV8iPFW9aA.mp4");
+            }
+            @Override public void dismissed() {
+                videoView.release();
             }
         }).with(options).applyTo(this, findViewById(R.id.gif_iv));
     }
 
     private void initVideoPeek() {
+        PeekViewOptions options = new PeekViewOptions()
+                .setWidthPercent(.25f)
+                .setHeightPercent(.75f);
 
+        Peek.into(R.layout.gif_peek, new SimpleOnPeek() {
+            private SimpleVideoView videoView;
+
+            @Override
+            public void onInflated(View rootView) {
+                videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
+                videoView.start("https://video.twimg.com/ext_tw_video/703677246528221184/pu/vid/180x320/xnI48eAV8iPFW9aA.mp4");
+            }
+
+            @Override
+            public void dismissed() {
+                videoView.release();
+            }
+        }).with(options).applyTo(this, findViewById(R.id.video_iv));
+    }
+
+    private void initAppPeeks() {
+        Glide.with(this).load(TALON).into((ImageView) findViewById(R.id.talon));
+        Glide.with(this).load(EVOLVE).into((ImageView) findViewById(R.id.evolve));
+        Glide.with(this).load(SOURCE).into((ImageView) findViewById(R.id.source));
+        Glide.with(this).load(BLUR).into((ImageView) findViewById(R.id.blur));
+
+        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l"))
+                .applyTo(this, findViewById(R.id.talon));
+
+        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms"))
+                .applyTo(this, findViewById(R.id.evolve));
+
+        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.source"))
+                .applyTo(this, findViewById(R.id.source));
+
+        Peek.into(R.layout.web_peek, getWebPeek("https://play.google.com/store/apps/details?id=com.klinker.android.launcher"))
+                .applyTo(this, findViewById(R.id.blur));
+    }
+
+    private OnPeek getWebPeek(final String url) {
+        return new OnPeek() {
+            private WebView webView;
+            @Override public void shown() { }
+            @Override public void onInflated(View rootView) {
+                webView = setupWebView(rootView);
+                webView.loadUrl(url);
+            }
+
+            @Override public void dismissed() {
+                webView.loadUrl("");
+            }
+        };
+    }
+
+    private WebView setupWebView(View rootView) {
+        WebView webView = (WebView) rootView.findViewById(R.id.web_view);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                webView.loadUrl(url);
+                return false;
+            }
+        });
+
+        return webView;
     }
 }
