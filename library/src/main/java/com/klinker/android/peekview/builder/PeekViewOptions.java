@@ -13,7 +13,7 @@ public class PeekViewOptions {
     // 0.0 = fully transparent background dim
     // 1.0 = fully opaque (black) background dim
     @FloatRange(from=0,to=1)
-    private float backgroundDim = 0.6f;
+    private float backgroundDim = .6f;
 
     private boolean useFadeAnimation = true;
     private boolean hapticFeedback = true;

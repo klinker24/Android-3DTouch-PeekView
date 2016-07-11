@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.PeekViewOptions;
+import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 
 
@@ -50,10 +51,27 @@ public class MainActivity extends PeekViewActivity {
 
         Peek.into(R.layout.image_peek, new SimpleOnPeek() {
             @Override
-            public void initialized(View rootView) {
+            public void onInflation(View rootView) {
                 ((ImageView) rootView.findViewById(R.id.image))
                         .setImageDrawable(getResources().getDrawable(R.drawable.klinker_apps));
             }
         }).with(options).applyTo(this, imageView);
+
+        Peek.into(R.layout.image_peek, new OnPeek() {
+            @Override
+            public void onInflation(View rootView) {
+
+            }
+
+            @Override
+            public void shown() {
+
+            }
+
+            @Override
+            public void dismissed() {
+
+            }
+        }).applyTo();
     }
 }

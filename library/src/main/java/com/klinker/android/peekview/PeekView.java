@@ -78,10 +78,10 @@ public class PeekView extends FrameLayout {
         setWidthByPercent(options.getWidthPercent());
         setHeightByPercent(options.getHeightPercent());
 
-        // tell the code that the view has been initialized and let them use it to
+        // tell the code that the view has been onInflation and let them use it to
         // set up the layout.
         if (callbacks != null) {
-            callbacks.initialized(content);
+            callbacks.onInflation(content);
         }
 
         // add the background dim to the frame
