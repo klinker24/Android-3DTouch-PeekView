@@ -1,12 +1,14 @@
 # Android 3D Touch - PeekView
 
-![Screenshot](preview.png)
+![preview](preview.gif)
 
 iOS uses [3D Touch](http://www.apple.com/iphone-6s/3d-touch/) as a way to "peek" into full content, such as emails, pictures, web searches, etc. While they have dedicated hardware for this functionality, it is still possible to get similar functionality out of Android, with a long click, rather than the dedicated hardware.
 
 This library aims to create a simple and powerful API to enable 3D Touch style "Peeking" on Android.
 
 ## Features
+
+![features](features.gif)
 
 1. Simple API
 2. Quick and easy to implement in any app
@@ -15,6 +17,7 @@ This library aims to create a simple and powerful API to enable 3D Touch style "
 5. Customize the `PeekView`'s window size (fullscreen or percent of screen size)
 6. Change the background dim amount
 7. Haptic feedback is optional
+8. Peek into ANY type of views. Example even uses a `WebView`
 
 ## Installation
 

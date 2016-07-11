@@ -162,7 +162,7 @@ public class PeekView extends FrameLayout {
      * @param event event that activates the peek view
      */
     public void setOffsetByMotionEvent(MotionEvent event) {
-        int x = (int) event.getX();
+        int x = (int) event.getRawX();
 
         // we don't want our finger to cover the content we are displaying, so, lets move the x value
         // of our touch event to one side or the other.
@@ -185,7 +185,7 @@ public class PeekView extends FrameLayout {
             }
         }
 
-        setContentOffset(x, (int) event.getY());
+        setContentOffset(x, (int) event.getRawY());
     }
 
     private void setContentOffset(int startX, int startY) {
