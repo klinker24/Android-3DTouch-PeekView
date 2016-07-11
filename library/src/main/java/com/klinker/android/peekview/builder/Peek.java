@@ -31,19 +31,28 @@ import com.klinker.android.peekview.callback.OnPeek;
  */
 public class Peek {
 
-    public static Peek into(@LayoutRes int layoutRes, OnPeek onPeek) {
+    public static Peek into(@LayoutRes int layoutRes, @Nullable OnPeek onPeek) {
         return new Peek(layoutRes, onPeek);
     }
 
-    private int layoutRes;
-    private OnPeek onPeek;
-    private View base;
-    private PeekViewOptions options;
+    public static Peek into(View layout, @Nullable OnPeek onPeek) {
+        return new Peek(layout, onPeek);
+    }
 
-    private Peek(@LayoutRes int layoutRes, @Nullable OnPeek onPeek) {
+    private int layoutRes = 0;
+    private View layout = null;
+
+    private PeekViewOptions options = new PeekViewOptions();
+    private OnPeek callbacks;
+
+    private Peek(@LayoutRes int layoutRes, @Nullable OnPeek callbacks) {
         this.layoutRes = layoutRes;
-        this.onPeek = onPeek;
-        this.options = new PeekViewOptions();
+        this.callbacks = callbacks;
+    }
+
+    private Peek(View layout, @Nullable OnPeek callbacks) {
+        this.layout = layout;
+        this.callbacks = callbacks;
     }
 
     public Peek with(PeekViewOptions options) {
@@ -52,15 +61,21 @@ public class Peek {
     }
 
     public Peek applyTo(final PeekViewActivity activity, final View base) {
-        this.base = base;
-
-        this.base.setOnTouchListener(new View.OnTouchListener() {
+        base.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, final MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        PeekView peek = new PeekView(activity, options, layoutRes, onPeek);
+                        PeekView peek;
+
+                        if (layout == null) {
+                            peek = new PeekView(activity, options, layoutRes, callbacks);
+                        } else {
+                            peek = new PeekView(activity, options, layout, callbacks);
+                        }
+
                         peek.setOverMotionEvent(motionEvent);
+
                         activity.preparePeek(peek, motionEvent);
 
                         return true;

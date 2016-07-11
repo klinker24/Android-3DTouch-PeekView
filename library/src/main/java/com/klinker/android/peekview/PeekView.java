@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ public class PeekView extends FrameLayout {
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
     private static final int FINGER_SIZE_DP = 75;
 
-    private final int FINGER_SIZE;
+    private int FINGER_SIZE;
 
     private View content;
     private ViewGroup.LayoutParams contentParams;
@@ -40,12 +41,21 @@ public class PeekView extends FrameLayout {
     private int screenWidth;
     private int screenHeight;
     private ViewGroup androidContentView = null;
-    private OnPeek callback;
+    private OnPeek callbacks;
 
-    public PeekView(Activity context, PeekViewOptions options, @LayoutRes int layoutRes, @Nullable OnPeek callback) {
+    public PeekView(Activity context, PeekViewOptions options, @LayoutRes int layoutRes, @Nullable OnPeek callbacks) {
         super(context);
+        init(context, options, LayoutInflater.from(context).inflate(layoutRes, this, false), callbacks);
+    }
+
+    public PeekView(Activity context, PeekViewOptions options, @NonNull View content, @Nullable OnPeek callbacks) {
+        super(context);
+        init(context, options, content, callbacks);
+    }
+
+    private void init(Activity context, PeekViewOptions options, @NonNull View content, @Nullable OnPeek callbacks) {
         this.options = options;
-        this.callback = callback;
+        this.callbacks = callbacks;
 
         FINGER_SIZE = DensityUtils.toDp(context, FINGER_SIZE_DP);
 
@@ -61,7 +71,7 @@ public class PeekView extends FrameLayout {
         screenWidth = size.x;
 
         // set up the content we want to show
-        content = LayoutInflater.from(context).inflate(layoutRes, this, false);
+        this.content = content;
         contentParams = content.getLayoutParams();
 
         setWidthByPercent(options.getWidthPercent());
@@ -69,8 +79,8 @@ public class PeekView extends FrameLayout {
 
         // tell the code that the view has been initialized and let them use it to
         // set up the layout.
-        if (callback != null) {
-            callback.initialized(content);
+        if (callbacks != null) {
+            callbacks.initialized(content);
         }
 
         // add the background dim to the frame
@@ -78,7 +88,8 @@ public class PeekView extends FrameLayout {
         dim.setBackgroundColor(Color.BLACK);
         dim.setAlpha(options.getBackgroundDim());
 
-        FrameLayout.LayoutParams dimParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams dimParams =
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dim.setLayoutParams(dimParams);
 
         // add the dim and the content view to the upper level frame layout
@@ -230,8 +241,8 @@ public class PeekView extends FrameLayout {
         animator.addListener(new AnimatorEndListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
-                if (callback != null) {
-                    callback.shown();
+                if (callbacks != null) {
+                    callbacks.shown();
                 }
             }
         });
@@ -248,8 +259,8 @@ public class PeekView extends FrameLayout {
             public void onAnimationEnd(Animator animator) {
                 androidContentView.removeView(PeekView.this);
 
-                if (callback != null) {
-                    callback.dismissed();
+                if (callbacks != null) {
+                    callbacks.dismissed();
                 }
             }
         });
