@@ -76,6 +76,8 @@ public class MainActivity extends PeekViewActivity {
     }
 
     private void initGifPeek() {
+        Glide.with(this).load("http://pbs.twimg.com/tweet_video_thumb/CnGhaZGWgAE2aO8.jpg").into((ImageView) findViewById(R.id.gif_iv));
+
         PeekViewOptions options = new PeekViewOptions()
                 .setWidthPercent(.75f)
                 .setHeightPercent(.75f);
@@ -86,7 +88,7 @@ public class MainActivity extends PeekViewActivity {
             @Override public void shown() { }
             @Override public void onInflated(View rootView) {
                 videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
-                videoView.start("https://video.twimg.com/ext_tw_video/703677246528221184/pu/vid/180x320/xnI48eAV8iPFW9aA.mp4");
+                videoView.start("https://pbs.twimg.com/tweet_video/CnGhaZGWgAE2aO8.mp4");
             }
             @Override public void dismissed() {
                 videoView.release();
@@ -95,6 +97,7 @@ public class MainActivity extends PeekViewActivity {
     }
 
     private void initVideoPeek() {
+        Glide.with(this).load("http://pbs.twimg.com/tweet_video_thumb/Cm7nySIWYAATnnI.jpg").into((ImageView) findViewById(R.id.video_iv));
         PeekViewOptions options = new PeekViewOptions()
                 .setWidthPercent(.25f)
                 .setHeightPercent(.75f);
@@ -105,7 +108,7 @@ public class MainActivity extends PeekViewActivity {
             @Override
             public void onInflated(View rootView) {
                 videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
-                videoView.start("https://video.twimg.com/ext_tw_video/703677246528221184/pu/vid/180x320/xnI48eAV8iPFW9aA.mp4");
+                videoView.start("https://pbs.twimg.com/tweet_video/Cm7nySIWYAATnnI.mp4");
             }
 
             @Override
