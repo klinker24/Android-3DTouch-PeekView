@@ -49,7 +49,8 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:padding="24dp"
+                android:layout_marginTop="12dp"
+                android:padding="12dp"
                 android:id="@+id/description"
                 android:text="@string/description"
                 android:textSize="22sp"
@@ -57,10 +58,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <com.klinker.android.badged_imageview.BadgedImageView
+                    android:id="@+id/gif_iv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_margin="12dp"
+                    android:scaleType="centerCrop"
+                    android:background="@android:color/black"
+                    app:badgeGravity="start|bottom"
+                    app:badgePadding="12dp"
+                    app:badgeColor="@android:color/white"
+                    app:badgeText="GIF" />
+
+                <com.klinker.android.badged_imageview.BadgedImageView
+                    android:id="@+id/video_iv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_margin="12dp"
+                    android:scaleType="centerCrop"
+                    android:background="@android:color/black"
+                    app:badgeGravity="start|bottom"
+                    app:badgePadding="12dp"
+                    app:badgeColor="@android:color/white"
+                    app:badgeText="VIDEO" />
+
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/image_peek"
                 android:src="@drawable/klinker_apps"
-                android:layout_margin="24dp"
+                android:layout_margin="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
                 

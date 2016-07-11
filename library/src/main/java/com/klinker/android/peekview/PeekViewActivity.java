@@ -38,6 +38,11 @@ public class PeekViewActivity extends AppCompatActivity {
             peekView = null;
 
             return true;
+        } else if (peekView != null) {
+
+            // we don't want to pass along the touch event or else it will just scroll under the PeekView
+
+            return false;
         } else if (preparing && event.getAction() == MotionEvent.ACTION_UP) {
 
             // the user lifted their finger before the view had been shown, so we don't want to show it

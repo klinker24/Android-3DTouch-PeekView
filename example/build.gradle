@@ -44,5 +44,7 @@ dependencies {
     compile "com.android.support:design:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
 
+    compile 'com.klinkerapps:simple_videoview:1.2.0'
+    compile 'com.klinkerapps:badged_imageview:1.0.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }

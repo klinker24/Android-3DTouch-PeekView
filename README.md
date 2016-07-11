@@ -44,12 +44,12 @@ This library is extremely easy to use. There are two steps:
 
 `PeekViewActivity` is a descendant of `AppCompatActivity`, so for almost every case, this will just be plug and play, a simple switch. `PeekView` requires this activity to montitor the touch events and determine when the user lifts their finger to remove the `PeekView`.
 
-- Use the `Peek.into(...` builder to start creating your `PeekView` on a UI element. There are examples of this in the [Main Activity](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/src/main/java/com/klinker/android/peekview_example/MainActivity.java), but here is a very simple one that will display an image full screen.
+- Use the `Peek.into(...` builder to start creating your `PeekView` on a UI element. There are examples of this in the [MainActivity](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/src/main/java/com/klinker/android/peekview_example/MainActivity.java), but here is a very simple one that will display an image full screen.
 
 ```java
 Peek.into(R.layout.image_peek, new SimpleOnPeek() {
     @Override
-    public void onInflation(View rootView) {
+    public void onInflated(View rootView) {
         // rootView is the layout inflated from R.layout.image_peek
         ((ImageView) rootView.findViewById(R.id.image))
                 .setImageDrawable(getResources().getDrawable(R.drawable.klinker_apps));
@@ -69,10 +69,12 @@ Here is a list of all the possible options, along with the implementation:
 
 ```java
 PeekViewOptions options = new PeekViewOptions();
-options.setWidthPercent(.4f);           // range: .1 - .9 (default is .6)
-options.setHeightPercent(.4f);          // range: .1 - .9 (default is .5)
 options.setBackgroundDim(1f);           // range: 0  - 1  (default is .6)
 options.setHapticFeedback(false);       // default is true
+
+// it may be a good idea to set set these through resources so that you can use different options based on screen size and orientation
+options.setWidthPercent(.4f);           // range: .1 - .9 (default is .6)
+options.setHeightPercent(.4f);          // range: .1 - .9 (default is .5)
 
 // default is false. If you change this to true, it will ignore the width and height percentages you set.
 options.setFullScreenPeek(true); 
@@ -93,7 +95,7 @@ Implementing these callbacks is straightforward and almost the same as you have 
 ```java
 Peek.into(..., new OnPeek() {
     @Override
-    public void onInflation(View rootView) {
+    public void onInflated(View rootView) {
         // the normal inflation callback
     }
 

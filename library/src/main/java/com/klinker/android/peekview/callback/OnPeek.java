@@ -7,7 +7,7 @@ import android.view.View;
  */
 public interface OnPeek {
 
-    void onInflation(View rootView);
+    void onInflated(View rootView);
     void shown();
     void dismissed();
 

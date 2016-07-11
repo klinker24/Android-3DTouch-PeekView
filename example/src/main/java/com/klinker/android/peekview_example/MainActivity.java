@@ -24,6 +24,7 @@ import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
+import com.klinker.android.simple_videoview.SimpleVideoView;
 
 
 public class MainActivity extends PeekViewActivity {
@@ -35,6 +36,8 @@ public class MainActivity extends PeekViewActivity {
 
         initHelloPeek();
         initImagePreview();
+        initGifPeek();
+        initVideoPeek();
     }
 
     private void initHelloPeek() {
@@ -51,27 +54,28 @@ public class MainActivity extends PeekViewActivity {
 
         Peek.into(R.layout.image_peek, new SimpleOnPeek() {
             @Override
-            public void onInflation(View rootView) {
+            public void onInflated(View rootView) {
                 ((ImageView) rootView.findViewById(R.id.image))
                         .setImageDrawable(getResources().getDrawable(R.drawable.klinker_apps));
             }
         }).with(options).applyTo(this, imageView);
+    }
 
-        Peek.into(R.layout.image_peek, new OnPeek() {
+    private void initGifPeek() {
+        PeekViewOptions options = new PeekViewOptions()
+                .setWidthPercent(.75f)
+                .setHeightPercent(.75f);
+
+        Peek.into(R.layout.gif_peek, new SimpleOnPeek() {
             @Override
-            public void onInflation(View rootView) {
-
+            public void onInflated(View rootView) {
+                SimpleVideoView videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
+                videoView.start("https://video.twimg.com/ext_tw_video/703677246528221184/pu/vid/180x320/xnI48eAV8iPFW9aA.mp4");
             }
+        }).with(options).applyTo(this, findViewById(R.id.gif_iv));
+    }
 
-            @Override
-            public void shown() {
+    private void initVideoPeek() {
 
-            }
-
-            @Override
-            public void dismissed() {
-
-            }
-        }).applyTo();
     }
 }

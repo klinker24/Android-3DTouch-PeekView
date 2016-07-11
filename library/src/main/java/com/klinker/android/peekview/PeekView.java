@@ -78,10 +78,10 @@ public class PeekView extends FrameLayout {
         setWidthByPercent(options.getWidthPercent());
         setHeightByPercent(options.getHeightPercent());
 
-        // tell the code that the view has been onInflation and let them use it to
+        // tell the code that the view has been onInflated and let them use it to
         // set up the layout.
         if (callbacks != null) {
-            callbacks.onInflation(content);
+            callbacks.onInflated(content);
         }
 
         // add the background dim to the frame
@@ -205,11 +205,7 @@ public class PeekView extends FrameLayout {
         int statusBar = NavigationUtils.getStatusBarHeight(getContext());
         if (startY < statusBar) { // if it is above the status bar and action bar
             startY = statusBar + 10;
-        } else if (NavigationUtils.hasNavBar(getContext()) &&
-                startY + contentParams.height > screenHeight - NavigationUtils.getNavBarHeight(getContext())) {
-            // if there is a nav bar and the popup is underneath it
-            startY = screenHeight - contentParams.height - NavigationUtils.getNavBarHeight(getContext()) - 10;
-        } else if (!NavigationUtils.hasNavBar(getContext()) && startY + contentParams.height > screenHeight) {
+        } else if (startY + contentParams.height > screenHeight) {
             startY = screenHeight - contentParams.height - 10;
         }
 
