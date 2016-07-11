@@ -40,22 +40,29 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <View
+            <TextView
+                android:padding="24dp"
+                android:id="@+id/description"
+                android:text="@string/description"
+                android:textSize="22sp"
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="?android:actionBarSize" />
+                android:layout_height="wrap_content" />
 
-            <View
-                android:id="@+id/show_peek"
-                android:background="@android:color/black"
+            <ImageView
+                android:id="@+id/image_peek"
+                android:src="@drawable/klinker_apps"
+                android:layout_margin="24dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp" />
+                android:layout_height="wrap_content" />
                 
         </LinearLayout>
 

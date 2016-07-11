@@ -16,4 +16,6 @@
 
 <resources>
     <string name="app_name">3D Touch - PeekView</string>
+    <string name="description">Long click any view to display the associated PeekView!</string>
+    <string name="hello_peek">Hello PeekView.\n\nThis is the default PeekView,\nwith no associated PeekViewOptions.</string>
 </resources>

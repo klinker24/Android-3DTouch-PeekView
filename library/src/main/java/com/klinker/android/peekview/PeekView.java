@@ -34,7 +34,7 @@ public class PeekView extends FrameLayout {
 
     private View dim;
 
-    // set up default values
+    private PeekViewOptions options;
     private int distanceFromTop;
     private int distanceFromLeft;
     private int screenWidth;
@@ -44,6 +44,7 @@ public class PeekView extends FrameLayout {
 
     public PeekView(Activity context, PeekViewOptions options, @LayoutRes int layoutRes, @Nullable OnPeek callback) {
         super(context);
+        this.options = options;
         this.callback = callback;
 
         FINGER_SIZE = DensityUtils.toDp(context, FINGER_SIZE_DP);
@@ -92,7 +93,7 @@ public class PeekView extends FrameLayout {
      * @param distance the distance from the top in px
      */
     private void setDistanceFromTop(int distance) {
-        this.distanceFromTop = distance;
+        this.distanceFromTop = options.fullScreenPeek() ? 0 : distance;
     }
 
     /**
@@ -102,7 +103,7 @@ public class PeekView extends FrameLayout {
      * @param distance the distance from the left in px
      */
     private void setDistanceFromLeft(int distance) {
-        this.distanceFromLeft = distance;
+        this.distanceFromLeft = options.fullScreenPeek() ? 0 : distance;
     }
 
     /**
@@ -112,7 +113,7 @@ public class PeekView extends FrameLayout {
      * @param width the width of the circle in px
      */
     private void setWidth(int width) {
-        contentParams.width = width;
+        contentParams.width = options.fullScreenPeek() ? screenWidth : width;
         content.setLayoutParams(contentParams);
     }
 
@@ -123,7 +124,7 @@ public class PeekView extends FrameLayout {
      * @param height the height of the circle in px
      */
     private void setHeight(int height) {
-        contentParams.height = height;
+        contentParams.height = options.fullScreenPeek() ? screenHeight : height;
         content.setLayoutParams(contentParams);
     }
 
@@ -163,7 +164,6 @@ public class PeekView extends FrameLayout {
      * @param event event that activates the peek view
      */
     public void setOverMotionEvent(MotionEvent event) {
-        // todo: modify the x value so it is offset from where our finger is touching
         int x = (int) event.getX();
 
         // we don't want our finger to cover the content we are displaying, so, lets move the x value
@@ -235,7 +235,7 @@ public class PeekView extends FrameLayout {
                 }
             }
         });
-        animator.setDuration(ANIMATION_TIME);
+        animator.setDuration(options.useFadeAnimation() ? ANIMATION_TIME : 0);
         animator.setInterpolator(INTERPOLATOR);
         animator.start();
     }
@@ -253,7 +253,7 @@ public class PeekView extends FrameLayout {
                 }
             }
         });
-        animator.setDuration(ANIMATION_TIME);
+        animator.setDuration(options.useFadeAnimation() ? ANIMATION_TIME : 0);
         animator.setInterpolator(INTERPOLATOR);
         animator.start();
     }

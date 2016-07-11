@@ -16,8 +16,9 @@ package com.klinker.android.peekview_example;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -31,15 +32,28 @@ public class MainActivity extends PeekViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PeekViewOptions options = new PeekViewOptions();
-
-        Peek.into(R.layout.peek_view, new SimpleOnPeek() {
-            @Override
-            public void initialized(View rootView) {
-                TextView previewText = (TextView) rootView.findViewById(R.id.text_view);
-                previewText.setText("hey here is a peek view!");
-            }
-        }).setOptions(options).applyTo(this, findViewById(R.id.show_peek));
+        initHelloPeek();
+        initImagePreview();
     }
 
+    private void initHelloPeek() {
+        Peek.into(R.layout.hello_peek, null)
+                .applyTo(this, findViewById(R.id.description));
+    }
+
+    private void initImagePreview() {
+        PeekViewOptions options = new PeekViewOptions();
+        options.setFullScreenPeek(true);
+        options.setBackgroundDim(1f);
+
+        ImageView imageView = (ImageView) findViewById(R.id.image_peek);
+
+        Peek.into(R.layout.image_peek, new SimpleOnPeek() {
+            @Override
+            public void initialized(View rootView) {
+                ((ImageView) rootView.findViewById(R.id.image))
+                        .setImageDrawable(getResources().getDrawable(R.drawable.klinker_apps));
+            }
+        }).with(options).applyTo(this, imageView);
+    }
 }

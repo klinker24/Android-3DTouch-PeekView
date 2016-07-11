@@ -15,24 +15,40 @@ public class PeekViewOptions {
     @FloatRange(from=0,to=1)
     private float backgroundDim = 0.6f;
 
+    private boolean useFadeAnimation = true;
     private boolean hapticFeedback = true;
+    private boolean fullScreenPeek = false;
 
 
     // region setters
-    public void setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
+    public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
         this.widthPercent = widthPercent;
+        return this;
     }
 
-    public void setHeightPercent(@FloatRange(from=.1,to=.9) float heightPercent) {
+    public PeekViewOptions setHeightPercent(@FloatRange(from=.1,to=.9) float heightPercent) {
         this.heightPercent = heightPercent;
+        return this;
     }
 
-    public void setBackgroundDim(@FloatRange(from=0,to=1) float backgroundDim) {
+    public PeekViewOptions setBackgroundDim(@FloatRange(from=0,to=1) float backgroundDim) {
         this.backgroundDim = backgroundDim;
+        return this;
     }
 
-    public void setHapticFeedback(boolean useFeedback) {
+    public PeekViewOptions setHapticFeedback(boolean useFeedback) {
         this.hapticFeedback = useFeedback;
+        return this;
+    }
+
+    public PeekViewOptions setUseFadeAnimation(boolean useFadeAnimation) {
+        this.useFadeAnimation = useFadeAnimation;
+        return this;
+    }
+
+    public PeekViewOptions setFullScreenPeek(boolean fullScreenPeek) {
+        this.fullScreenPeek = fullScreenPeek;
+        return this;
     }
     //endregion
 
@@ -51,6 +67,14 @@ public class PeekViewOptions {
 
     public boolean getHapticFeedback() {
         return hapticFeedback;
+    }
+
+    public boolean useFadeAnimation() {
+        return useFadeAnimation;
+    }
+
+    public boolean fullScreenPeek() {
+        return fullScreenPeek;
     }
     // endregion
 }
