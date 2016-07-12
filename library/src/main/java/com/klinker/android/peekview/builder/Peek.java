@@ -16,6 +16,7 @@ package com.klinker.android.peekview.builder;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -41,6 +42,9 @@ public class Peek {
 
     private PeekViewOptions options = new PeekViewOptions();
     private OnPeek callbacks;
+
+    private int downImpactPointX;
+    private int downImpactPointY;
 
     private Peek(@LayoutRes int layoutRes, @Nullable OnPeek callbacks) {
         this.layoutRes = layoutRes;
@@ -72,6 +76,7 @@ public class Peek {
         base.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, final MotionEvent motionEvent) {
+                Log.v("peek_action", "motion event: " + motionEvent.getAction());
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
 
@@ -89,8 +94,20 @@ public class Peek {
                         peek.setOffsetByMotionEvent(motionEvent);
                         activity.preparePeek(peek, motionEvent);
 
+                        downImpactPointX = (int) motionEvent.getRawX();
+                        downImpactPointY = (int) motionEvent.getRawY();
+
                         // we want to consume this touch event.
                         return true;
+                    case MotionEvent.ACTION_UP:
+                        if (Math.abs(downImpactPointX - motionEvent.getRawX()) < activity.getMoveThreshold() &&
+                                Math.abs(downImpactPointY - motionEvent.getRawY()) < activity.getMoveThreshold()) {
+                            // manually click the view if it is less than the move threshold
+                            base.performClick();
+                            return true;
+                        } else {
+                            return false;
+                        }
                     default:
                         // we don't need to consume any other touch events.
                         return false;

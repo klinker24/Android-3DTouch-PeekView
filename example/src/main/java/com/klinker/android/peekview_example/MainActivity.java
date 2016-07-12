@@ -19,6 +19,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.builder.Peek;
@@ -73,6 +74,13 @@ public class MainActivity extends PeekViewActivity {
                         .setImageDrawable(getResources().getDrawable(R.drawable.klinker_apps));
             }
         }).with(options).applyTo(this, imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "this is a normal click.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initGifPeek() {

@@ -37,20 +37,19 @@ public class PeekViewActivity extends AppCompatActivity {
             peekView.hide();
             peekView = null;
 
-            return true;
+            return false;
         } else if (peekView != null) {
 
             // we don't want to pass along the touch event or else it will just scroll under the PeekView
 
             return false;
         } else if (preparing && event.getAction() == MotionEvent.ACTION_UP) {
-
             // the user lifted their finger before the view had been shown, so we don't want to show it
 
             preparing = false;
             longClickHandler.removeCallbacksAndMessages(null);
 
-            return false;
+            return super.dispatchTouchEvent(event);
         } else if (preparing && event.getAction() == MotionEvent.ACTION_MOVE &&
                 (Math.abs(startX - event.getRawX()) > MOVE_THRESHOLD && Math.abs(startY - event.getRawY()) > MOVE_THRESHOLD)) {
 
@@ -86,5 +85,9 @@ public class PeekViewActivity extends AppCompatActivity {
                 peekView.show();
             }
         }, ViewConfiguration.getLongPressTimeout());
+    }
+
+    public int getMoveThreshold() {
+        return MOVE_THRESHOLD;
     }
 }
