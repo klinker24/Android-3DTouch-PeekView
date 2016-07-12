@@ -87,8 +87,8 @@ public class MainActivity extends PeekViewActivity {
         Glide.with(this).load("http://pbs.twimg.com/tweet_video_thumb/CnGhaZGWgAE2aO8.jpg").into((ImageView) findViewById(R.id.gif_iv));
 
         PeekViewOptions options = new PeekViewOptions()
-                .setWidthPercent(.75f)
-                .setHeightPercent(.75f);
+                .setAbsoluteWidth(200)
+                .setAbsoluteHeight(200);
 
         Peek.into(R.layout.gif_peek, new OnPeek() {
             private SimpleVideoView videoView;

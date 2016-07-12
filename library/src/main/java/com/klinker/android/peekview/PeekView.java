@@ -75,8 +75,17 @@ public class PeekView extends FrameLayout {
         this.content = content;
         contentParams = content.getLayoutParams();
 
-        setWidthByPercent(options.getWidthPercent());
-        setHeightByPercent(options.getHeightPercent());
+        if (options.getAbsoluteHeight() != 0) {
+            setHeight(DensityUtils.toPx(context, options.getAbsoluteHeight()));
+        } else {
+            setHeightByPercent(options.getHeightPercent());
+        }
+
+        if (options.getAbsoluteWidth() != 0) {
+            setWidth(DensityUtils.toPx(context, options.getAbsoluteWidth()));
+        } else {
+            setWidthByPercent(options.getWidthPercent());
+        }
 
         // tell the code that the view has been onInflated and let them use it to
         // set up the layout.

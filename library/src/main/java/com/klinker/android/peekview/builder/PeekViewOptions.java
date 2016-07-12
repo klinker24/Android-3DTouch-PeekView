@@ -10,6 +10,10 @@ public class PeekViewOptions {
     @FloatRange(from=.1,to=.9)
     private float heightPercent = .5f;
 
+    // Values should be in DP
+    private int absoluteWidth = 0;
+    private int absoluteHeight = 0;
+
     // 0.0 = fully transparent background dim
     // 1.0 = fully opaque (black) background dim
     @FloatRange(from=0,to=1)
@@ -23,6 +27,16 @@ public class PeekViewOptions {
     // region setters
     public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
         this.widthPercent = widthPercent;
+        return this;
+    }
+
+    public PeekViewOptions setAbsoluteWidth(int width) {
+        this.absoluteWidth = width;
+        return this;
+    }
+
+    public PeekViewOptions setAbsoluteHeight(int height) {
+        this.absoluteHeight = height;
         return this;
     }
 
@@ -59,6 +73,14 @@ public class PeekViewOptions {
 
     public float getHeightPercent() {
         return heightPercent;
+    }
+
+    public int getAbsoluteWidth() {
+        return absoluteWidth;
+    }
+
+    public int getAbsoluteHeight() {
+        return absoluteHeight;
     }
 
     public float getBackgroundDim() {
