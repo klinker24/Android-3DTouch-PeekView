@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.2:
+- Match AppCompatActivity's protectected visibility for onCreate()
+
 ### Version 1.0.1:
 - Fix issue with the PeekView consuming click events
 

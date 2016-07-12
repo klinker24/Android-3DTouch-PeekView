@@ -21,7 +21,7 @@ public class PeekViewActivity extends AppCompatActivity {
     private int startY;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         longClickHandler = new Handler();
 
