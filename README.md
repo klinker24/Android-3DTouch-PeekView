@@ -29,7 +29,7 @@ This is the preferred way. Simply add:
 
 ```groovy
 dependencies {
-    compile 'com.klinkerapps:peekview:1.0.4'
+    compile 'com.klinkerapps:peekview:1.0.5'
 }
 ```
 
@@ -78,6 +78,12 @@ options.setHapticFeedback(false);       // default is true
 // it may be a good idea to set set these through resources so that you can use different options based on screen size and orientation
 options.setWidthPercent(.4f);           // range: .1 - .9 (default is .6)
 options.setHeightPercent(.4f);          // range: .1 - .9 (default is .5)
+
+// you can also set the size of the PeekView using absolute values, instead of percentages. 
+// Setting these will override the corresponding percentage value.
+// You should use this instead of setting the size of the view from the layout resources, as those get overridden.
+options.setAbsoluteWidth(200);          // 200 DP
+options.setAbsoluteHeight(200);         // 200 DP
 
 // default is false. If you change this to true, it will ignore the width and height percentages you set.
 options.setFullScreenPeek(true); 

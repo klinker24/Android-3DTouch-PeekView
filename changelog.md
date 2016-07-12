@@ -1,6 +1,9 @@
 ## Changelog
 
-### Version 1.0.4:
+### Version 1.0.5:
+- Set the absolute width and height of a view instead of a screen size percentage
+
+### Version 1.0.4 BETA:
 - Allow for clearing the "peek" ability on a `View`
 
 ### Version 1.0.3 BETA:
