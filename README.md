@@ -29,7 +29,7 @@ This is the preferred way. Simply add:
 
 ```groovy
 dependencies {
-    compile 'com.klinkerapps:peekview:1.0.3'
+    compile 'com.klinkerapps:peekview:1.0.4'
 }
 ```
 
@@ -115,6 +115,16 @@ Peek.into(..., new OnPeek() {
     }
 }).applyTo(...);
 ```
+
+#### Clearing the Peek for a View
+
+Sometimes it may be necessary to not allow "peeking" in a `View` where it was previously allowed. Some situations that come to mind would be in a `RecyclerView` or `ListView` where content could be different. Because of the way these lists work, when the view gets recycled, it will retain the "peeking" ability of the original `View`, unless you clear it. Clearing a "peek" is really easy:
+
+```java
+Peek.clear(View);
+```
+
+Currently, all this method does is set the `TouchListener` to `null` for the provided `View`. In the future though, there may be more advanced changes that will be made to this method, so, it is probably safer to use the `Peek#clear` method instead of just `null`ing the `TouchListener` yourself.
 
 ## Contributing
 

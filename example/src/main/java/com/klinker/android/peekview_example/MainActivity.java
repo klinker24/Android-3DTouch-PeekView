@@ -144,6 +144,8 @@ public class MainActivity extends PeekViewActivity {
                 Toast.makeText(MainActivity.this, "Testing touch feedback", Toast.LENGTH_SHORT).show();
             }
         });
+
+        Peek.clear(findViewById(R.id.talon_layout));
     }
 
     private OnPeek getWebPeek(final String url) {
