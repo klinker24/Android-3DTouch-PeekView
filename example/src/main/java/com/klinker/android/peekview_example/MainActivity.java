@@ -105,7 +105,9 @@ public class MainActivity extends PeekViewActivity {
     }
 
     private void initVideoPeek() {
-        Glide.with(this).load("http://pbs.twimg.com/tweet_video_thumb/Cm7nySIWYAATnnI.jpg").into((ImageView) findViewById(R.id.video_iv));
+        Glide.with(this).load("http://pbs.twimg.com/tweet_video_thumb/Cm7nySIWYAATnnI.jpg")
+                .into((ImageView) findViewById(R.id.video_iv));
+
         PeekViewOptions options = new PeekViewOptions()
                 .setFullScreenPeek(true);
 
@@ -131,10 +133,17 @@ public class MainActivity extends PeekViewActivity {
         Glide.with(this).load(SOURCE_ICON).into((ImageView) findViewById(R.id.source));
         Glide.with(this).load(BLUR_ICON).into((ImageView) findViewById(R.id.blur));
 
-        Peek.into(R.layout.web_peek, getWebPeek(TALON_LINK)).applyTo(this, findViewById(R.id.talon));
+        Peek.into(R.layout.web_peek, getWebPeek(TALON_LINK)).applyTo(this, findViewById(R.id.talon_layout));
         Peek.into(R.layout.web_peek, getWebPeek(EVOLVE_LINK)).applyTo(this, findViewById(R.id.evolve));
         Peek.into(R.layout.web_peek, getWebPeek(SOURCE_LINK)).applyTo(this, findViewById(R.id.source));
         Peek.into(R.layout.web_peek, getWebPeek(BLUR_LINK)).applyTo(this, findViewById(R.id.blur));
+
+        findViewById(R.id.talon_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Testing touch feedback", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private OnPeek getWebPeek(final String url) {

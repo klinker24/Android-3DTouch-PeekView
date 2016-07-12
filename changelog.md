@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.3:
+- Show ripple touch effects on the clicked views, if they use a RippleDrawable for a background
+
 ### Version 1.0.2:
 - Match AppCompatActivity's protectected visibility for onCreate()
 

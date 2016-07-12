@@ -49,6 +49,8 @@
                 android:layout_marginBottom="12dp">
 
                 <LinearLayout
+                    android:id="@+id/talon_layout"
+                    android:background="?attr/selectableItemBackground"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent">

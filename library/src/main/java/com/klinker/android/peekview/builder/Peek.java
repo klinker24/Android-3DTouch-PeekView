@@ -14,6 +14,10 @@
 
 package com.klinker.android.peekview.builder;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -97,6 +101,8 @@ public class Peek {
                         downImpactPointX = (int) motionEvent.getRawX();
                         downImpactPointY = (int) motionEvent.getRawY();
 
+                        forceRippleAnimation(base, motionEvent);
+
                         // we want to consume this touch event.
                         return true;
                     case MotionEvent.ACTION_UP:
@@ -114,5 +120,23 @@ public class Peek {
                 }
             }
         });
+    }
+
+    private void forceRippleAnimation(View view, MotionEvent event) {
+        Drawable background = view.getBackground();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background instanceof RippleDrawable) {
+            final RippleDrawable rippleDrawable = (RippleDrawable) background;
+
+            rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+            rippleDrawable.setHotspot(event.getX(), event.getY());
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    rippleDrawable.setState(new int[]{});
+                }
+            }, 300);
+        }
     }
 }

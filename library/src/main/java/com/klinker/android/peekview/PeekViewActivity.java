@@ -48,8 +48,6 @@ public class PeekViewActivity extends AppCompatActivity {
 
             preparing = false;
             longClickHandler.removeCallbacksAndMessages(null);
-
-            return super.dispatchTouchEvent(event);
         } else if (preparing && event.getAction() == MotionEvent.ACTION_MOVE &&
                 (Math.abs(startX - event.getRawX()) > MOVE_THRESHOLD && Math.abs(startY - event.getRawY()) > MOVE_THRESHOLD)) {
 
@@ -62,8 +60,6 @@ public class PeekViewActivity extends AppCompatActivity {
 
             preparing = false;
             longClickHandler.removeCallbacksAndMessages(null);
-
-            return false;
         }
 
         return super.dispatchTouchEvent(event);
