@@ -105,13 +105,13 @@ Peek.into(..., new OnPeek() {
     @Override
     public void shown() {
         // the view is shown to the user
-        //Could be a nice place for custom animations on the inflated view
+        // Could be a nice place for custom animations on the inflated view
     }
 
     @Override
     public void dismissed() {
         // the view is dismissed from the screen
-        //It is destroyed an never reused, so any cleanup would go here
+        // It is destroyed an never reused, so any cleanup would go here
     }
 }).applyTo(...);
 ```

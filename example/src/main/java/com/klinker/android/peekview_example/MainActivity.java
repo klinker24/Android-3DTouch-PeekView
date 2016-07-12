@@ -145,7 +145,7 @@ public class MainActivity extends PeekViewActivity {
             }
         });
 
-        Peek.clear(findViewById(R.id.talon_layout));
+        //Peek.clear(findViewById(R.id.talon_layout));
     }
 
     private OnPeek getWebPeek(final String url) {
