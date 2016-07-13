@@ -27,7 +27,7 @@ public class PeekView extends FrameLayout {
 
     private static final int ANIMATION_TIME = 300;
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
-    private static final int FINGER_SIZE_DP = 75;
+    private static final int FINGER_SIZE_DP = 130;
 
     private int FINGER_SIZE;
 
@@ -172,6 +172,10 @@ public class PeekView extends FrameLayout {
      */
     public void setOffsetByMotionEvent(MotionEvent event) {
         int x = (int) event.getRawX();
+        int y = (int) event.getRawY();
+
+        int movedX = x;
+        int movedY = y;
 
         // we don't want our finger to cover the content we are displaying, so, lets move the x value
         // of our touch event to one side or the other.
@@ -180,21 +184,66 @@ public class PeekView extends FrameLayout {
         // is the touch on the right or left side of the screen?
         if (x > screenWidth / 2) { // right
             // we want to move it to the left
-            x -= ((contentParams.width / 2) + FINGER_SIZE);
+            movedX -= ((contentParams.width / 2) + FINGER_SIZE);
 
-            if (x < 0) {
-                x = 0;
+            if (movedX < 0) {
+                movedX = 0;
+
+                // we should try moving vertically instead, since x hits the left bound and may still cover the finger
+
+                // is y at the top or bottom half of the screen?
+                if (y > screenHeight / 2) { // bottom half, move it up
+                    movedY -= ((contentParams.height / 2) + FINGER_SIZE);
+
+                    if (movedY < 0) {
+                        movedY = 0;
+                    }
+                } else { // top half, move it down
+                    movedY += ((contentParams.height / 2) + FINGER_SIZE);
+
+                    if (movedY > screenHeight) {
+                        movedY = screenHeight;
+                    }
+                }
             }
         } else { // left
             // we want to move it to the right
-            x += ((contentParams.width / 2) + FINGER_SIZE);
+            movedX += ((contentParams.width / 2) + FINGER_SIZE);
 
-            if (x > screenWidth) {
-                x = screenWidth;
+            if (movedX > screenWidth) {
+                movedX = screenWidth;
+
+                // we should try moving vertically instead, since x hits the left bound and may still cover the finger
+
+                // is y at the top or bottom half of the screen?
+                if (y > screenHeight / 2) { // bottom half, move it up
+                    movedY -= ((contentParams.height / 2) + FINGER_SIZE);
+
+                    if (movedY < 0) {
+                        movedY = 0;
+                    }
+                } else { // top half, move it down
+                    movedY += ((contentParams.height / 2) + FINGER_SIZE);
+
+                    if (movedY > screenHeight) {
+                        movedY = screenHeight;
+                    }
+                }
             }
         }
 
-        setContentOffset(x, (int) event.getRawY());
+        // now pick which values to use...
+        if (movedX < screenWidth && movedX > 0) {
+            // we know that the x movement didn't move it off the edge, so we got the full finger displacement
+            x = movedX;
+        } else if (y == screenHeight || y == 0) {
+            // we know that the y movement pushed it off to the edge of the screen, so we want to use the x displacement
+            x = movedX;
+        } else {
+            y = movedY;
+        }
+
+        setContentOffset(x, y);
     }
 
     private void setContentOffset(int startX, int startY) {
