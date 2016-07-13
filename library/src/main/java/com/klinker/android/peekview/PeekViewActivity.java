@@ -29,6 +29,19 @@ public class PeekViewActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        if (peekView != null) {
+            peekView.hide();
+            peekView = null;
+        } else if (preparing) {
+            preparing = false;
+            longClickHandler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (peekView != null && event.getAction() == MotionEvent.ACTION_UP) {
 

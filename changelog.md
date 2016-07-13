@@ -2,6 +2,7 @@
 
 ### Version 1.0.6 BETA:
 - Make `PeekView` smarter. Will react better to finger placement and move out of the way, so that it is not covered up when displayed.
+- Ensure correct the `PeekView` is always dismissed when `Activity#onPause` is called.
 
 ### Version 1.0.5 BETA:
 - Set the absolute width and height of a view instead of a screen size percentage
