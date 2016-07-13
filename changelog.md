@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.0.8 BETA:
+- Some bug fixes
+
 ### Version 1.0.6 BETA:
 - Make `PeekView` smarter. Will react better to finger placement and move out of the way, so that it is not covered up when displayed.
 - Ensure correct the `PeekView` is always dismissed when `Activity#onPause` is called.

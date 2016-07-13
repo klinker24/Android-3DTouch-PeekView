@@ -209,9 +209,13 @@ public class PeekView extends FrameLayout {
 
             // if Y is in the lower half, we want it to go up, otherwise, leave it the same
             boolean moveDown = true;
-            if (startY > screenHeight / 2) {
+            if (startY + contentParams.height + FINGER_SIZE > screenHeight) {
                 startY -= contentParams.height;
                 moveDown = false;
+
+                if (movementAmount > 0) {
+                    movementAmount *= -1;
+                }
             }
 
             // when moving the peek view below the finger location, we want to offset it a bit to the right
@@ -235,8 +239,11 @@ public class PeekView extends FrameLayout {
             startY -= contentParams.height / 2;
 
             // if X is in the right half, we want it to go left
-            if (startX > screenWidth / 2) {
+            if (startX + contentParams.width + FINGER_SIZE > screenWidth) {
                 startX -= contentParams.width;
+                if (movementAmount > 0) {
+                    movementAmount *= -1;
+                }
             }
 
             // make sure they aren't outside of the layout bounds and move them with the movementAmount

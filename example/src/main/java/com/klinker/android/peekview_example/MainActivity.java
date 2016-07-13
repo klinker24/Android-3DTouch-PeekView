@@ -135,8 +135,8 @@ public class MainActivity extends PeekViewActivity {
 
         Peek.into(R.layout.web_peek, getWebPeek(TALON_LINK)).applyTo(this, findViewById(R.id.talon_layout));
         Peek.into(R.layout.web_peek, getWebPeek(EVOLVE_LINK)).applyTo(this, findViewById(R.id.evolve));
-        Peek.into(R.layout.web_peek, getWebPeek(SOURCE_LINK)).applyTo(this, findViewById(R.id.source));
-        Peek.into(R.layout.web_peek, getWebPeek(BLUR_LINK)).applyTo(this, findViewById(R.id.blur));
+        Peek.into(R.layout.web_peek, getWebPeek(SOURCE_LINK)).with(new PeekViewOptions().setAbsoluteHeight(100).setAbsoluteWidth(100)).applyTo(this, findViewById(R.id.source));
+        Peek.into(R.layout.web_peek, getWebPeek(BLUR_LINK)).with(new PeekViewOptions().setAbsoluteHeight(35).setAbsoluteWidth(35)).applyTo(this, findViewById(R.id.blur));
 
         findViewById(R.id.talon_layout).setOnClickListener(new View.OnClickListener() {
             @Override
