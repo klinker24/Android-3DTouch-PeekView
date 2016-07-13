@@ -27,7 +27,7 @@ public class PeekView extends FrameLayout {
 
     private static final int ANIMATION_TIME = 300;
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
-    private static final int FINGER_SIZE_DP = 130;
+    private static final int FINGER_SIZE_DP = 40;
 
     private int FINGER_SIZE;
 
@@ -58,7 +58,7 @@ public class PeekView extends FrameLayout {
         this.options = options;
         this.callbacks = callbacks;
 
-        FINGER_SIZE = DensityUtils.toDp(context, FINGER_SIZE_DP);
+        FINGER_SIZE = DensityUtils.toPx(context, FINGER_SIZE_DP);
 
         // get the main content view of the display
         androidContentView = (FrameLayout) context.findViewById(android.R.id.content);
@@ -166,7 +166,8 @@ public class PeekView extends FrameLayout {
     }
 
     /**
-     * Places the peek view over the top of a motion event.
+     * Places the peek view over the top of a motion event. This will translate the motion event's start points
+     * so that the PeekView isn't covered by the finger.
      *
      * @param event event that activates the peek view
      */
@@ -174,91 +175,76 @@ public class PeekView extends FrameLayout {
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
 
-        int movedX = x;
-        int movedY = y;
-
-        // we don't want our finger to cover the content we are displaying, so, lets move the x value
-        // of our touch event to one side or the other.
-        // we will move it over as far as we can, so that
-
-        // is the touch on the right or left side of the screen?
-        if (x > screenWidth / 2) { // right
-            // we want to move it to the left
-            movedX -= ((contentParams.width / 2) + FINGER_SIZE);
-
-            if (movedX < 0) {
-                movedX = 0;
-
-                // we should try moving vertically instead, since x hits the left bound and may still cover the finger
-
-                // is y at the top or bottom half of the screen?
-                if (y > screenHeight / 2) { // bottom half, move it up
-                    movedY -= ((contentParams.height / 2) + FINGER_SIZE);
-
-                    if (movedY < 0) {
-                        movedY = 0;
-                    }
-                } else { // top half, move it down
-                    movedY += ((contentParams.height / 2) + FINGER_SIZE);
-
-                    if (movedY > screenHeight) {
-                        movedY = screenHeight;
-                    }
-                }
-            }
-        } else { // left
-            // we want to move it to the right
-            movedX += ((contentParams.width / 2) + FINGER_SIZE);
-
-            if (movedX > screenWidth) {
-                movedX = screenWidth;
-
-                // we should try moving vertically instead, since x hits the left bound and may still cover the finger
-
-                // is y at the top or bottom half of the screen?
-                if (y > screenHeight / 2) { // bottom half, move it up
-                    movedY -= ((contentParams.height / 2) + FINGER_SIZE);
-
-                    if (movedY < 0) {
-                        movedY = 0;
-                    }
-                } else { // top half, move it down
-                    movedY += ((contentParams.height / 2) + FINGER_SIZE);
-
-                    if (movedY > screenHeight) {
-                        movedY = screenHeight;
-                    }
-                }
-            }
-        }
-
-        // now pick which values to use...
-        if (movedX < screenWidth && movedX > 0) {
-            // we know that the x movement didn't move it off the edge, so we got the full finger displacement
-            x = movedX;
-        } else if (y == screenHeight || y == 0) {
-            // we know that the y movement pushed it off to the edge of the screen, so we want to use the x displacement
-            x = movedX;
+        if (x + contentParams.width + FINGER_SIZE < screenWidth) {
+            setContentOffset(x, y, Translation.HORIZONTAL, FINGER_SIZE);
+        } else if (x - FINGER_SIZE - contentParams.width > 0) {
+            setContentOffset(x, y, Translation.HORIZONTAL, -1 * FINGER_SIZE);
+        } else if (y + contentParams.height + FINGER_SIZE < screenHeight) {
+            setContentOffset(x, y, Translation.VERTICAL, FINGER_SIZE);
+        } else if (y - FINGER_SIZE - contentParams.height > 0) {
+            setContentOffset(x, y, Translation.VERTICAL, -1 * FINGER_SIZE);
         } else {
-            y = movedY;
+            // it won't fit anywhere
+            if (x < screenWidth / 2) {
+                setContentOffset(x, y, Translation.HORIZONTAL, FINGER_SIZE);
+            } else {
+                setContentOffset(x, y, Translation.HORIZONTAL, -1 * FINGER_SIZE);
+            }
         }
-
-        setContentOffset(x, y);
     }
 
-    private void setContentOffset(int startX, int startY) {
+    /**
+     * Show the PeekView over the point of motion
+     *
+     * @param startX
+     * @param startY
+     */
+    private void setContentOffset(int startX, int startY, Translation translation, int movementAmount) {
 
-        startX = startX - (contentParams.width / 2);
-        startY = startY - (contentParams.height / 2);
+        if (translation == Translation.VERTICAL) {
 
-        // check these against the layout bounds now
-        if (startX < 0) {
-            // if it is off the left side
-            startX = 10;
-        } else if (startX > screenWidth - contentParams.width) {
-            // if it is off the right side
-            startX = screenWidth - contentParams.width - 10;
+            // center the X around the start point
+            int originalStartX = startX;
+            startX -= contentParams.width / 2;
+
+            // if Y is in the lower half, we want it to go up, otherwise, leave it the same
+            boolean moveDown = true;
+            if (startY > screenHeight / 2) {
+                startY -= contentParams.height;
+                moveDown = false;
+            }
+
+            // when moving the peek view below the finger location, we want to offset it a bit to the right
+            // or left as well, just so the hand doesn't cover it up.
+            int extraXOffset = 0;
+            if (moveDown) {
+                extraXOffset = DensityUtils.toPx(getContext(), 200);
+                if (originalStartX > screenWidth / 2) {
+                    extraXOffset = extraXOffset * -1; // move it a bit to the left
+                }
+            }
+
+            // make sure they aren't outside of the layout bounds and move them with the movementAmount
+            // I move the x just a bit to the right or left here as well, because it just makes things look better
+            startX = ensureWithinBounds(startX + extraXOffset, screenWidth, contentParams.width);
+            startY = ensureWithinBounds(startY + movementAmount, screenHeight, contentParams.height);
+
+        } else {
+
+            // center the Y around the start point
+            startY -= contentParams.height / 2;
+
+            // if X is in the right half, we want it to go left
+            if (startX > screenWidth / 2) {
+                startX -= contentParams.width;
+            }
+
+            // make sure they aren't outside of the layout bounds and move them with the movementAmount
+            startX = ensureWithinBounds(startX + movementAmount, screenWidth, contentParams.width);
+            startY = ensureWithinBounds(startY, screenHeight, contentParams.height);
         }
+
+        // check to see if the system bars are covering anything
 
         int statusBar = NavigationUtils.getStatusBarHeight(getContext());
         if (startY < statusBar) { // if it is above the status bar and action bar
@@ -271,8 +257,22 @@ public class PeekView extends FrameLayout {
             startY = screenHeight - contentParams.height - DensityUtils.toDp(getContext(), 10);
         }
 
+        // set the newly computed distances from the start and top sides
         setDistanceFromLeft(startX);
         setDistanceFromTop(startY);
+    }
+
+    private int ensureWithinBounds(int value, int screenSize, int contentSize) {
+        // check these against the layout bounds
+        if (value < 0) {
+            // if it is off the left side
+            value = 10;
+        } else if (value > screenSize - contentSize) {
+            // if it is off the right side
+            value = screenSize - contentSize - 10;
+        }
+
+        return value;
     }
 
     /**
@@ -331,4 +331,6 @@ public class PeekView extends FrameLayout {
         @Override public void onAnimationCancel(Animator animator) { }
         @Override public void onAnimationRepeat(Animator animator) { }
     }
+
+    private enum Translation { HORIZONTAL, VERTICAL }
 }
