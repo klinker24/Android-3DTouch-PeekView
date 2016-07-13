@@ -1,6 +1,9 @@
 ## Changelog
 
-### Version 1.0.5:
+### Version 1.0.6 BETA:
+- Make `PeekView` smarter. Will react better to finger placement and move out of the way, so that it is not covered up when displayed.
+
+### Version 1.0.5 BETA:
 - Set the absolute width and height of a view instead of a screen size percentage
 
 ### Version 1.0.4 BETA:
