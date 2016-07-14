@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.1.0:
+- Initial public release!
+
 ### Version 1.0.8 BETA:
 - Some bug fixes
 
