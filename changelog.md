@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.1.1:
+- Improve long and short click gesture detection with `PeekView`
+
 ### Version 1.1.0:
 - Initial public release!
 
