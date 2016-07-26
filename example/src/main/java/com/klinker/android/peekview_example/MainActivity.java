@@ -14,6 +14,7 @@
 
 package com.klinker.android.peekview_example;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -116,7 +117,8 @@ public class MainActivity extends PeekViewActivity {
 
         PeekViewOptions options = new PeekViewOptions()
                 .setFullScreenPeek(true)
-                .setBlurredView(root);
+                .setBlurredView(root)
+                .setBlurOverlayColor(Color.parseColor("#99000000"));
 
         Peek.into(R.layout.video_peek, new SimpleOnPeek() {
             private SimpleVideoView videoView;

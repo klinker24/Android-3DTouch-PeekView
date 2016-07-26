@@ -1,5 +1,6 @@
 package com.klinker.android.peekview.builder;
 
+import android.graphics.Color;
 import android.support.annotation.FloatRange;
 import android.view.View;
 
@@ -25,6 +26,7 @@ public class PeekViewOptions {
     private boolean fullScreenPeek = false;
 
     private View blurredView;
+    private int blurOverlayColor = Color.parseColor("#99FFFFFF");
 
     // region setters
     public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
@@ -71,6 +73,11 @@ public class PeekViewOptions {
         this.blurredView = blurredView;
         return this;
     }
+
+    public PeekViewOptions setBlurOverlayColor(int color) {
+        this.blurOverlayColor = color;
+        return this;
+    }
     //endregion
 
     // region getters
@@ -108,6 +115,10 @@ public class PeekViewOptions {
 
     public View getBlurredView() {
         return blurredView;
+    }
+
+    public int getBlurOverlayColor() {
+        return blurOverlayColor;
     }
     // endregion
 }

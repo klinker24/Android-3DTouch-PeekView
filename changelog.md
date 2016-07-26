@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.2.1:
+- Configure the blur overlay color (defaults to a light white) with `PeekViewOptions#setBlurOverlayColor`.
+
 ### Version 1.2.0:
 - Blur the background behind `PeekView` with `PeekViewOptions#setBlurredView`, instead of just using a dark dim
 

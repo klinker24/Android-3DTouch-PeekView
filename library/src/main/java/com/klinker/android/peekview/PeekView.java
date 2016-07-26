@@ -108,7 +108,7 @@ public class PeekView extends FrameLayout {
             blurringView.setLayoutParams(dimParams);
             blurringView.setBlurRadius(1);
             blurringView.setDownsampleFactor(10);
-            blurringView.setOverlayColor(Color.parseColor("#99FFFFFF"));
+            blurringView.setOverlayColor(options.getBlurOverlayColor());
             blurringView.setBlurredView(options.getBlurredView());
 
             post(new Runnable() {

@@ -30,7 +30,7 @@ This is the preferred way. Simply add:
 
 ```groovy
 dependencies {
-    compile 'com.klinkerapps:peekview:1.2.0'
+    compile 'com.klinkerapps:peekview:1.2.1'
 }
 ```
 
@@ -55,7 +55,7 @@ allprojects {
 }
 ```
 
-Then, in your Android applications [build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/build.gradle), you must enable `RenderScript`:
+Then, in your Android application's [build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/build.gradle), you must enable `RenderScript`:
 
 ```groovy
 android {
@@ -123,6 +123,7 @@ options.setFadeAnimation(false);
 // If you set a blurred view, then it will invalidate whatever you set as your background dim.
 // usually this should be the root view of your layout
 options.setBlurredView(rootView);
+options.setBlurOverlayColor(Color.parse("#99000000"));      // #99FFFFFF default
 
 Peek.into(...).with(options).applyTo(...);
 ```
