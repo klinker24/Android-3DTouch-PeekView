@@ -32,6 +32,7 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+    compile 'com.fivehundredpx:blurringview:1.0.0'
 }
 
 apply from: 'https://raw.github.com/klinker24/gradle-mvn-push/master/gradle-mvn-push.gradle'

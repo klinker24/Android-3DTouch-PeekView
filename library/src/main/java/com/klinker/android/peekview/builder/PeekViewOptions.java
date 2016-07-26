@@ -1,6 +1,7 @@
 package com.klinker.android.peekview.builder;
 
 import android.support.annotation.FloatRange;
+import android.view.View;
 
 public class PeekViewOptions {
 
@@ -23,6 +24,7 @@ public class PeekViewOptions {
     private boolean hapticFeedback = true;
     private boolean fullScreenPeek = false;
 
+    private View blurredView;
 
     // region setters
     public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
@@ -64,6 +66,11 @@ public class PeekViewOptions {
         this.fullScreenPeek = fullScreenPeek;
         return this;
     }
+
+    public PeekViewOptions setBlurredView(View blurredView) {
+        this.blurredView = blurredView;
+        return this;
+    }
     //endregion
 
     // region getters
@@ -97,6 +104,10 @@ public class PeekViewOptions {
 
     public boolean fullScreenPeek() {
         return fullScreenPeek;
+    }
+
+    public View getBlurredView() {
+        return blurredView;
     }
     // endregion
 }

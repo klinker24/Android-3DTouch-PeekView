@@ -18,6 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
+import com.fivehundredpx.android.blur.BlurringView;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.util.DensityUtils;
@@ -101,6 +102,25 @@ public class PeekView extends FrameLayout {
         FrameLayout.LayoutParams dimParams =
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dim.setLayoutParams(dimParams);
+
+        if (options.getBlurredView() != null) {
+            final BlurringView blurringView = new BlurringView(context);
+            blurringView.setLayoutParams(dimParams);
+            blurringView.setBlurRadius(1);
+            blurringView.setDownsampleFactor(10);
+            blurringView.setOverlayColor(Color.parseColor("#99FFFFFF"));
+            blurringView.setBlurredView(options.getBlurredView());
+
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    blurringView.invalidate();
+                }
+            });
+
+            addView(blurringView);
+            dim.setAlpha(0f);
+        }
 
         // add the dim and the content view to the upper level frame layout
         addView(dim);

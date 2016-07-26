@@ -42,10 +42,14 @@ public class MainActivity extends PeekViewActivity {
     private static final String SOURCE_LINK = "https://play.google.com/store/apps/details?id=com.klinker.android.source";
     private static final String BLUR_LINK = "https://play.google.com/store/apps/details?id=com.klinker.android.launcher";
 
+    private View root;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        root = findViewById(R.id.coordinator_layout);
 
         initHelloPeek();
         initImagePreview();
@@ -64,6 +68,7 @@ public class MainActivity extends PeekViewActivity {
         PeekViewOptions options = new PeekViewOptions();
         options.setFullScreenPeek(true);
         options.setBackgroundDim(1f);
+        options.setBlurredView(root);
 
         ImageView imageView = (ImageView) findViewById(R.id.image_peek);
 
@@ -88,7 +93,8 @@ public class MainActivity extends PeekViewActivity {
 
         PeekViewOptions options = new PeekViewOptions()
                 .setAbsoluteWidth(200)
-                .setAbsoluteHeight(200);
+                .setAbsoluteHeight(200)
+                .setBlurredView(root);
 
         Peek.into(R.layout.gif_peek, new OnPeek() {
             private SimpleVideoView videoView;
@@ -109,7 +115,8 @@ public class MainActivity extends PeekViewActivity {
                 .into((ImageView) findViewById(R.id.video_iv));
 
         PeekViewOptions options = new PeekViewOptions()
-                .setFullScreenPeek(true);
+                .setFullScreenPeek(true)
+                .setBlurredView(root);
 
         Peek.into(R.layout.video_peek, new SimpleOnPeek() {
             private SimpleVideoView videoView;
