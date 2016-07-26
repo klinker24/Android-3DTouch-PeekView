@@ -40,6 +40,34 @@ to your project dependencies and run `./gradlew build` or `./gradlew assemble`.
 
 Download the source code and import it as a library project in Eclipse. The project is available in the folder **library**. For more information on how to do this, read [here](http://developer.android.com/tools/projects/index.html#LibraryProjects).
 
+#### Using the Background Blurring Support
+
+You have to add just a few more things to your gradle files to get this set up. in the main projects `[build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/build.gradle)`, add:
+
+```groovy
+...
+
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+    }
+}
+```
+
+Then, in your Android applications `[build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/build.gradle)`, you must enable `RenderScript`:
+
+```groovy
+android {
+    ...
+    defaultConfig {
+        ...
+        renderscriptTargetApi 24
+        renderscriptSupportModeEnabled true
+    }
+}
+```
+
 ## Example Usage
 
 This library is extremely easy to use. There are two steps:
