@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.2.0:
+- Blur the background behind `PeekView` with `PeekViewOptions#setBlurredView`, instead of just using a dark dim
+
 ### Version 1.1.1:
 - Improve long and short click gesture detection with `PeekView`
 

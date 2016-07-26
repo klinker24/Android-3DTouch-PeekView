@@ -29,7 +29,7 @@ This is the preferred way. Simply add:
 
 ```groovy
 dependencies {
-    compile 'com.klinkerapps:peekview:1.1.1'
+    compile 'com.klinkerapps:peekview:1.2.0'
 }
 ```
 
