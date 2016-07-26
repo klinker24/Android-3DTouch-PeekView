@@ -42,7 +42,7 @@ Download the source code and import it as a library project in Eclipse. The proj
 
 #### Using the Background Blurring Support
 
-You have to add just a few more things to your gradle files to get this set up. in the main projects `[build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/build.gradle)`, add:
+You have to add just a few more things to your gradle files to get this set up. in the main projects [build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/build.gradle), add:
 
 ```groovy
 ...
@@ -55,7 +55,7 @@ allprojects {
 }
 ```
 
-Then, in your Android applications `[build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/build.gradle)`, you must enable `RenderScript`:
+Then, in your Android applications [build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/build.gradle), you must enable `RenderScript`:
 
 ```groovy
 android {
