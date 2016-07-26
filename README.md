@@ -18,6 +18,7 @@ This library aims to create a simple and powerful API to enable 3D Touch style "
 6. Change the background dim amount
 7. Haptic feedback is optional
 8. Peek into ANY type of views. Example even uses a `WebView`
+9. Blur the background behind the `PeekView` for an extra "WOW" factor over the dim percentage
 
 ## Installation
 
@@ -89,6 +90,11 @@ options.setAbsoluteHeight(200);         // 200 DP
 options.setFullScreenPeek(true); 
 // default is true. Unless you are going to animate things yourself, i recommend leaving this as true.
 options.setFadeAnimation(false);
+
+// PeekView has the ability to blur the background behind it, instead of just using a simple dark dim.
+// If you set a blurred view, then it will invalidate whatever you set as your background dim.
+// usually this should be the root view of your layout
+options.setBlurredView(rootView);
 
 Peek.into(...).with(options).applyTo(...);
 ```
