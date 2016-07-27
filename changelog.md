@@ -1,5 +1,11 @@
 ## Changelog
 
+### Version 1.2.2:
+- Blur the content layout's root view, instead of passing in a view to blur
+- Improve the blur effect
+- Turn blurring on by default
+- Remove the `RenderScript` dependency and extra maven dependency
+
 ### Version 1.2.1:
 - Configure the blur overlay color (defaults to a light white) with `PeekViewOptions#setBlurOverlayColor`.
 

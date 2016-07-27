@@ -30,7 +30,7 @@ This is the preferred way. Simply add:
 
 ```groovy
 dependencies {
-    compile 'com.klinkerapps:peekview:1.2.1'
+    compile 'com.klinkerapps:peekview:1.2.2'
 }
 ```
 
@@ -39,34 +39,6 @@ to your project dependencies and run `./gradlew build` or `./gradlew assemble`.
 #### As a library project
 
 Download the source code and import it as a library project in Eclipse. The project is available in the folder **library**. For more information on how to do this, read [here](http://developer.android.com/tools/projects/index.html#LibraryProjects).
-
-#### Using the Background Blurring Support
-
-You have to add just a few more things to your gradle files to get this set up. in the main projects [build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/build.gradle), add:
-
-```groovy
-...
-
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
-    }
-}
-```
-
-Then, in your Android application's [build.gradle](https://github.com/klinker24/Android-3DTouch-PeekView/blob/master/example/build.gradle), you must enable `RenderScript`:
-
-```groovy
-android {
-    ...
-    defaultConfig {
-        ...
-        renderscriptTargetApi 24
-        renderscriptSupportModeEnabled true
-    }
-}
-```
 
 ## Example Usage
 
@@ -121,9 +93,9 @@ options.setFadeAnimation(false);
 
 // PeekView has the ability to blur the background behind it, instead of just using a simple dark dim.
 // If you set a blurred view, then it will invalidate whatever you set as your background dim.
-// usually this should be the root view of your layout
-options.setBlurredView(rootView);
-options.setBlurOverlayColor(Color.parse("#99000000"));      // #99FFFFFF default
+// If you do this, please look at the installation steps for the blur effect, or the app will crash.
+options.setBlurBackground(true);                            // default is true
+options.setBlurOverlayColor(Color.parse("#99000000"));      // #99000000 default
 
 Peek.into(...).with(options).applyTo(...);
 ```

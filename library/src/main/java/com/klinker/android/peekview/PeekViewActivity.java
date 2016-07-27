@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 
 import com.klinker.android.peekview.util.DensityUtils;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class PeekViewActivity extends AppCompatActivity {
 
@@ -21,11 +24,7 @@ public class PeekViewActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-
-        if (peekView != null) {
-            peekView.hide();
-            peekView = null;
-        }
+        removePeek();
     }
 
     @Override
@@ -33,9 +32,7 @@ public class PeekViewActivity extends AppCompatActivity {
         if (peekView != null && event.getAction() == MotionEvent.ACTION_UP) {
 
             // the user lifted their finger, so we are going to remove the peek view
-
-            peekView.hide();
-            peekView = null;
+            removePeek();
 
             return false;
         } else if (peekView != null) {
@@ -51,5 +48,12 @@ public class PeekViewActivity extends AppCompatActivity {
     public void showPeek(final PeekView view) {
         peekView = view;
         peekView.show();
+    }
+
+    public void removePeek() {
+        if (peekView != null) {
+            peekView.hide();
+            peekView = null;
+        }
     }
 }

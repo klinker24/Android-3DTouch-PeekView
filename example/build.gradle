@@ -24,9 +24,6 @@ android {
         targetSdkVersion Integer.parseInt(project.TARGET_SDK)
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
-
-        renderscriptTargetApi Integer.parseInt(project.TARGET_SDK)
-        renderscriptSupportModeEnabled true
     }
 
     buildTypes {

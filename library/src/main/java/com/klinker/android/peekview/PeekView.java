@@ -18,11 +18,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
-import com.fivehundredpx.android.blur.BlurringView;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.util.DensityUtils;
 import com.klinker.android.peekview.util.NavigationUtils;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class PeekView extends FrameLayout {
 
@@ -62,7 +63,7 @@ public class PeekView extends FrameLayout {
         FINGER_SIZE = DensityUtils.toPx(context, FINGER_SIZE_DP);
 
         // get the main content view of the display
-        androidContentView = (FrameLayout) context.findViewById(android.R.id.content);
+        androidContentView = (FrameLayout) context.findViewById(android.R.id.content).getRootView();
 
         // initialize the display size
         Display display = context.getWindowManager().getDefaultDisplay();
@@ -103,22 +104,14 @@ public class PeekView extends FrameLayout {
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dim.setLayoutParams(dimParams);
 
-        if (options.getBlurredView() != null) {
-            final BlurringView blurringView = new BlurringView(context);
-            blurringView.setLayoutParams(dimParams);
-            blurringView.setBlurRadius(1);
-            blurringView.setDownsampleFactor(10);
-            blurringView.setOverlayColor(options.getBlurOverlayColor());
-            blurringView.setBlurredView(options.getBlurredView());
+        if (options.shouldBlurBackground()) {
+            Blurry.with(context)
+                    .radius(2)
+                    .sampling(5)
+                    .animate()
+                    .color(options.getBlurOverlayColor())
+                    .onto((ViewGroup) androidContentView.getRootView());
 
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    blurringView.invalidate();
-                }
-            });
-
-            addView(blurringView);
             dim.setAlpha(0f);
         }
 
@@ -348,6 +341,8 @@ public class PeekView extends FrameLayout {
         animator.setDuration(options.useFadeAnimation() ? ANIMATION_TIME : 0);
         animator.setInterpolator(INTERPOLATOR);
         animator.start();
+
+        Blurry.delete((ViewGroup) androidContentView.getRootView());
     }
 
     /**

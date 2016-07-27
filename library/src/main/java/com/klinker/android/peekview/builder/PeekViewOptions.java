@@ -25,8 +25,8 @@ public class PeekViewOptions {
     private boolean hapticFeedback = true;
     private boolean fullScreenPeek = false;
 
-    private View blurredView;
-    private int blurOverlayColor = Color.parseColor("#99FFFFFF");
+    private boolean blurBackground = true;
+    private int blurOverlayColor = Color.parseColor("#99000000");
 
     // region setters
     public PeekViewOptions setWidthPercent(@FloatRange(from=.1,to=.9) float widthPercent) {
@@ -69,8 +69,8 @@ public class PeekViewOptions {
         return this;
     }
 
-    public PeekViewOptions setBlurredView(View blurredView) {
-        this.blurredView = blurredView;
+    public PeekViewOptions setBlurBackground(boolean blur) {
+        this.blurBackground = blur;
         return this;
     }
 
@@ -113,8 +113,8 @@ public class PeekViewOptions {
         return fullScreenPeek;
     }
 
-    public View getBlurredView() {
-        return blurredView;
+    public boolean shouldBlurBackground() {
+        return blurBackground;
     }
 
     public int getBlurOverlayColor() {
