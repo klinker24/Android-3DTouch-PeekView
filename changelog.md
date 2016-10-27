@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 1.2.3:
+- Update dependencies and build tools for SDK 25
+
 ### Version 1.2.2:
 - Blur the content layout's root view, instead of passing in a view to blur
 - Improve the blur effect

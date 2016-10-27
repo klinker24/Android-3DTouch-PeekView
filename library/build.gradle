@@ -32,7 +32,7 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
-    compile 'jp.wasabeef:blurry:2.0.2'
+    compile 'jp.wasabeef:blurry:2.0.3'
 }
 
 apply from: 'https://raw.github.com/klinker24/gradle-mvn-push/master/gradle-mvn-push.gradle'
